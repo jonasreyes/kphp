@@ -4,23 +4,83 @@ namespace app\Models;
 
 use mysqli;
 
+/**
+ * Genera un objeto de la tabla de la base de datos
+ *
+ * Esta clase permite instanciar un objeto de la tabla
+ * que coincida con el nombre del modelo.
+ *
+ * @access public
+ * @author Jonas A. Reyes C.
+ *
+ */
 class Model
 {
+  /**
+   * @access protected
+   * @var string
+   */
   protected $db_host = DB_HOST;
+
+  /**
+   * @access protected
+   * @var string
+   */
   protected $db_user = DB_USER;
+  
+  /**
+   * @access protected
+   * @var string
+   */
   protected $db_pass = DB_PASS;
+
+  /**
+   * @access protected
+   * @var string
+   */
   protected $db_name = DB_NAME;
 
+  /**
+   * @access protected
+   * @var string
+   */
   protected $connection;
+
+  /**
+   * @access protected
+   * @var string
+   */
   protected $query;
+
+  /**
+   * @access protected
+   * @var string
+   */
   protected $table;
 
+  /**
+   * Establece conexión con la base de datos
+   *
+   * Instancia un objeto de la base de datos 
+   * con <connection>.
+   * 
+   * @access public
+   */
   public function __construct()
   {
     $this->connection();
     $this->table = $this->get_model();
   }
 
+  /**
+   * Obtiene el nombre de la tabla a trabajar
+   *
+   * A partir del nombre de la clase y setea
+   * el atributo table.
+   *
+   * @access Public
+   * @return String  Nombre del modelo en plural y minúscula
+   */
   public function get_model()
   {
     return $this->table = strtolower(end(explode('\\',get_class($this)))) . 's';
@@ -36,6 +96,14 @@ class Model
 
   }
 
+  /**
+   * Ejecuta la consulta contenida en <b>$sql</b>
+   *
+   * @access Public
+   * @sql string
+   * @query object
+   * @return object
+   */
   public function query($sql)
   {
     $this->query = $this->connection->query($sql);
